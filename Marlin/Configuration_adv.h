@@ -574,7 +574,7 @@
 #define Z_HOME_BUMP_MM 3
 #define HOMING_BUMP_DIVISOR { 4, 4, 5 }  // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 //#define QUICK_HOME                     // If homing includes X and Y, do a diagonal move initially
-//#define HOMING_BACKOFF_MM { 2, 2, 2 }  // (mm) Move away from the endstops after homing
+#define HOMING_BACKOFF_MM { 2, 2, 2 }  // (mm) Move away from the endstops after homing
 
 // When G28 is called, this option will make Y home before X
 //#define HOME_Y_BEFORE_X
@@ -1871,7 +1871,7 @@
  * a resistor.
  * The drivers can also be used with hardware serial.
  *
- * TMCStepper library is required to use TMC stepper drivers.
+ * Stepper library is required to use TMC stepper drivers.
  * https://github.com/teemuatlut/TMCStepper
  */
 #if HAS_TRINAMIC
@@ -1881,7 +1881,7 @@
 
   #if AXIS_IS_TMC(X)
     #define X_CURRENT       1600        // (mA) RMS current. Multiply by 1.414 for peak current.
-    #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for sensorless homing
+    #define X_CURRENT_HOME  400  // (mA) RMS current for sensorless homing
     #define X_MICROSTEPS     16    // 0..256
     #define X_RSENSE          0.075
     #define X_CHAIN_POS      -1    // <=0 : Not chained. 1 : MCU MOSI connected. 2 : Next in chain, ...
@@ -1889,7 +1889,7 @@
 
   #if AXIS_IS_TMC(X2)
     #define X2_CURRENT      1600
-    #define X2_CURRENT_HOME X2_CURRENT
+    #define X2_CURRENT_HOME 400
     #define X2_MICROSTEPS    16
     #define X2_RSENSE         0.075
     #define X2_CHAIN_POS     -1
@@ -1897,7 +1897,7 @@
 
   #if AXIS_IS_TMC(Y)
     #define Y_CURRENT       1600
-    #define Y_CURRENT_HOME  Y_CURRENT
+    #define Y_CURRENT_HOME  400
     #define Y_MICROSTEPS     16
     #define Y_RSENSE          0.075
     #define Y_CHAIN_POS      -1
@@ -1905,7 +1905,7 @@
 
   #if AXIS_IS_TMC(Y2)
     #define Y2_CURRENT      1600
-    #define Y2_CURRENT_HOME Y2_CURRENT
+    #define Y2_CURRENT_HOME 400
     #define Y2_MICROSTEPS    16
     #define Y2_RSENSE         0.075
     #define Y2_CHAIN_POS     -1
@@ -2129,7 +2129,7 @@
    * IMPROVE_HOMING_RELIABILITY tunes acceleration and jerk when
    * homing and adds a guard period for endstop triggering.
    */
-  //#define SENSORLESS_HOMING // StallGuard capable drivers only
+  #define SENSORLESS_HOMING // StallGuard capable drivers only
 
   /**
    * Use StallGuard2 to probe the bed with the nozzle.
@@ -2144,9 +2144,10 @@
     #define X_STALL_SENSITIVITY  8
     #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
     #define Y_STALL_SENSITIVITY  8
-    //#define Z_STALL_SENSITIVITY  8
+    #define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
+    #define Z_STALL_SENSITIVITY  8
     //#define SPI_ENDSTOPS              // TMC2130 only
-    //#define IMPROVE_HOMING_RELIABILITY
+    #define IMPROVE_HOMING_RELIABILITY
   #endif
 
   /**
@@ -2401,7 +2402,7 @@
  *
  * See http://marlinfw.org/docs/configuration/laser_spindle.html for more config details.
  */
-//#define SPINDLE_FEATURE
+#define SPINDLE_FEATURE
 //#define LASER_FEATURE
 #if EITHER(SPINDLE_FEATURE, LASER_FEATURE)
   #define SPINDLE_LASER_ACTIVE_HIGH     false  // Set to "true" if the on/off function is active HIGH
